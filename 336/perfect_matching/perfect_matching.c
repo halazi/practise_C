@@ -1,11 +1,11 @@
 #include <stdio.h>
-#define N 5
+#define N 4
 int match(int m[N][N], int w[N][N])
 {
 	int engaged[N][N]; //=0 not engaged, =1 engaged
 	int to_propose[N]; //next woman to propose, =5 means finished
-	int free_m[N] = {1, 1, 1, 1, 1}; //man and woman are all free initially
-	int free_w[N] = {1, 1, 1, 1, 1};
+	int free_m[N] = {1, 1, 1, 1}; //man and woman are all free initially
+	int free_w[N] = {1, 1, 1, 1};
 	memset((void *)engaged, 0, N*N*sizeof(int));
 	memset(to_propose, 0, N*sizeof(int));
 	while (1) {
@@ -59,16 +59,14 @@ int match(int m[N][N], int w[N][N])
 int main()
 {
 	// preference list for each man and woman
-	int m[N][N] = {	{0,1,2,3,4},
-					{4,1,2,0,3},
-					{3,4,2,1,0},
-					{0,1,4,2,3},
-					{4,0,1,3,2}}; 
-	int w[N][N] = {	{4,3,1,0,2},
-					{2,3,1,4,0},
-					{3,4,1,2,0},
-					{4,0,2,1,3},
-					{0,1,3,4,2}}; 
+	int m[N][N] = {	{0,1,2,3},
+					{0,1,2,3},
+					{0,1,2,3},
+					{0,2,1,3}}; 
+	int w[N][N] = {	{0,1,2,3},
+					{0,3,1,2},
+					{2,3,0,1},
+					{0,1,2,3}}; 
 	int i;
 	for (i=0; i<N; i++) {
 		printf("man %d:\t\t", i);

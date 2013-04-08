@@ -1,50 +1,104 @@
 #include <stdio.h>
 #define N 4
-int match(int m[N][N], int w[N][N], int engaged[N][N])
+
+int m[N][N], w[N][N], e[N][N];
+int e_new[N][N];
+
+int match(int new)
 {
 	int to_propose[N] = {0, 0, 0, 0}; //next woman to propose, =5 means finished
 	int free_m[N] = {1, 1, 1, 1}; //man and woman are all free initially
 	int free_w[N] = {1, 1, 1, 1};
-	memset((void *)engaged, 0, N*N*sizeof(int));
-	while (1) {
-		int man;
-		for (man=0; man<N; man++) {
-			if (free_m[man]) break;
+	//memset((void *)e, 0, N*N*sizeof(int));
+	if (new) {
+		int i, j;
+		for (i=0; i<N; i++) {
+			for (j=0; j<N; j++) {
+				e_new[i][j] = 0;
+			}
 		}
-		if (man == N) break; //no free man now; alg terminate
-//		printf("to_propose[%d] = %d\n", man, to_propose[man]);
-		int woman = m[man][to_propose[man]++];
-		if (free_w[woman]){
-			engaged[man][woman] = 1;
-			free_m[man] = 0;
-			free_w[woman] = 0;
-		} else {
-			int engaged_man;
-			for (engaged_man=0; engaged_man<N; engaged_man++) {
-				if (engaged[engaged_man][woman]) break;
+		while (1) {
+			int man;
+			for (man=0; man<N; man++) {
+				if (free_m[man]) break;
 			}
-			int i;
-			int man_num, engaged_man_num;
-			for (i=0; i<N; i++) {
-				if (w[woman][i] == man) {
-					man_num = i;
-				}
-				if (w[woman][i] == engaged_man) {
-					engaged_man_num = i;
-				}
-			}
-			if (man_num < engaged_man_num) {
-				engaged[man][woman] = 1;
-				engaged[engaged_man][woman] = 0;
+			if (man == N) break; //no free man now; alg terminate
+	//		printf("to_propose[%d] = %d\n", man, to_propose[man]);
+			int woman = m[man][to_propose[man]++];
+			if (free_w[woman]){
+				e_new[man][woman] = 1;
 				free_m[man] = 0;
-				free_m[engaged_man] = 1;
+				free_w[woman] = 0;
+			} else {
+				int engaged_man;
+				for (engaged_man=0; engaged_man<N; engaged_man++) {
+					if (e_new[engaged_man][woman]) break;
+				}
+				int i;
+				int man_num, engaged_man_num;
+				for (i=0; i<N; i++) {
+					if (w[woman][i] == man) {
+						man_num = i;
+					}
+					if (w[woman][i] == engaged_man) {
+						engaged_man_num = i;
+					}
+				}
+				if (man_num < engaged_man_num) {
+					e_new[man][woman] = 1;
+					e_new[engaged_man][woman] = 0;
+					free_m[man] = 0;
+					free_m[engaged_man] = 1;
+				}
+			}
+		}
+	} else {
+		int i, j;
+		for (i=0; i<N; i++) {
+			for (j=0; j<N; j++) {
+				e[i][j] = 0;
+			}
+		}
+		while (1) {
+			int man;
+			for (man=0; man<N; man++) {
+				if (free_m[man]) break;
+			}
+			if (man == N) break; //no free man now; alg terminate
+	//		printf("to_propose[%d] = %d\n", man, to_propose[man]);
+			int woman = m[man][to_propose[man]++];
+			if (free_w[woman]){
+				e[man][woman] = 1;
+				free_m[man] = 0;
+				free_w[woman] = 0;
+			} else {
+				int engaged_man;
+				for (engaged_man=0; engaged_man<N; engaged_man++) {
+					if (e[engaged_man][woman]) break;
+				}
+				int i;
+				int man_num, engaged_man_num;
+				for (i=0; i<N; i++) {
+					if (w[woman][i] == man) {
+						man_num = i;
+					}
+					if (w[woman][i] == engaged_man) {
+						engaged_man_num = i;
+					}
+				}
+				if (man_num < engaged_man_num) {
+					e[man][woman] = 1;
+					e[engaged_man][woman] = 0;
+					free_m[man] = 0;
+					free_m[engaged_man] = 1;
+				}
 			}
 		}
 	}
 	return 0;
 }
 
-int display(int m[N][N], int w[N][N], int e[N][N])
+int display(int new)
 {
 	int i;
 	for (i=0; i<N; i++) {
@@ -55,6 +109,7 @@ int display(int m[N][N], int w[N][N], int e[N][N])
 		}
 		printf("\n");
 	}
+	printf("\n");
 	for (i=0; i<N; i++) {
 		printf("w[%d]:\t", i);
 		int j;
@@ -63,23 +118,26 @@ int display(int m[N][N], int w[N][N], int e[N][N])
 		}
 		printf("\n");
 	}
+	printf("\n");
 	for (i=0; i<N; i++) {
 		printf("e[%d]:\t", i);
 		int j;
 		for (j=0; j<N; j++) {
-			printf("%d ", e[i][j]);
+			if (new) {
+				printf("%d ", e_new[i][j]);
+			} else {
+				printf("%d ", e[i][j]);
+			}
 		}
 		printf("\n");
 	}
+	printf("\n");
 	return 0;
 }
 
 int main()
 {
 	// preference list for each man and woman
-	int m[N][N];
-	int w[N][N];
-	int e[N][N];
 	int a, b, c, a1, b1, c1, a2, b2, c2, a3, b3, c3;
 	for (a=0; a<N; a++) {
 		m[0][0] = a;
@@ -162,27 +220,36 @@ int main()
 																									w[3][2] = z3;
 																									w[3][3] = 6-x3-y3-z3;
 																									//printf("woman 3: %d %d %d %d\n", w[3][0], w[3][1], w[3][2], w[3][3]);
-																									match(m,w,e);
+																									match(0);
 																									int woman;
 																									for (woman=0; woman<N; woman++) {
-																										if (e[w[woman][1]][woman]) {
+																										if (e[w[woman][1]][woman] == 1) {
 																											int tmp = w[woman][2];
 																											w[woman][2] = w[woman][3];
 																											w[woman][3] = tmp;
-																											int e_new[N][N];
-																											match(m,w,e_new);
+																											match(1);
 																											int disp = 0;
 																											if (e_new[w[woman][0]][woman]) {
 																												printf("Find it!\n");
 																												printf("New:\n");
-																												display(m,w,e_new);
+																												display(1);
+																												printf("woman = %d\n", woman);
+																												printf("e[w[woman][0]][woman] = %d\n", e[w[woman][0]][woman]);
+																												printf("e[w[woman][1]][woman] = %d\n", e[w[woman][1]][woman]);
+																												printf("\n");
 																												disp = 1;
+																											} else {
+																												printf("-");
 																											}
 																											w[woman][3] = w[woman][2];
 																											w[woman][2] = tmp;
 																											if (disp) {
+																												match(0);
 																												printf("Old:\n");
-																												display(m,w,e);
+																												display(0);
+																												printf("woman = %d\n", woman);
+																												printf("e[w[woman][0]][woman] = %d\n", e[w[woman][0]][woman]);
+																												printf("e[w[woman][1]][woman] = %d\n", e[w[woman][1]][woman]);
 																												goto end;
 																											}
 																										} 
