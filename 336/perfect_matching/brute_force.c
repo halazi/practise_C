@@ -223,7 +223,7 @@ int main()
 																									match(0);
 																									int woman;
 																									for (woman=0; woman<N; woman++) {
-																										if (e[w[woman][1]][woman] == 1) {
+																										if (!e[w[woman][0]][woman]) {
 																											int tmp = w[woman][2];
 																											w[woman][2] = w[woman][3];
 																											w[woman][3] = tmp;
@@ -233,9 +233,6 @@ int main()
 																												printf("Find it!\n");
 																												printf("New:\n");
 																												display(1);
-																												printf("woman = %d\n", woman);
-																												printf("e[w[woman][0]][woman] = %d\n", e[w[woman][0]][woman]);
-																												printf("e[w[woman][1]][woman] = %d\n", e[w[woman][1]][woman]);
 																												printf("\n");
 																												disp = 1;
 																											} else {
@@ -247,9 +244,6 @@ int main()
 																												match(0);
 																												printf("Old:\n");
 																												display(0);
-																												printf("woman = %d\n", woman);
-																												printf("e[w[woman][0]][woman] = %d\n", e[w[woman][0]][woman]);
-																												printf("e[w[woman][1]][woman] = %d\n", e[w[woman][1]][woman]);
 																												goto end;
 																											}
 																										} 
