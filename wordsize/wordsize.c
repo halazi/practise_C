@@ -1,9 +1,13 @@
 #include <stdio.h>
 #include <limits.h>
 
+// wordsize.c
+// DEBUG notes:
+// error: ‘__WORDSIZE’ undeclared (first use in this function)
+
 int main()
 {
-	printf("__WORDSIZE \t= %d\n\n", __WORDSIZE);
+	//printf("__WORDSIZE \t= %d\n\n", __WORDSIZE);
 	printf("SHRT_MAX \t= %u \t(%x)\n", SHRT_MAX, SHRT_MAX);
 	printf("USHRT_MAX \t= %u \t(%x)\n\n", USHRT_MAX, USHRT_MAX);
 	printf("INT_MAX \t= %u \t(%x)\n", INT_MAX, INT_MAX);
