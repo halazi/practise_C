@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
-
-#define N 1000000
-#define PRE(x,y) (x<=y)
-
-typedef unsigned long TYPE;
+#include "mergesort.h"
+//#define N 1000000
+//#define PRE(x,y) (x<=y)
+//#define TYPE unsigned long
+//typedef unsigned long TYPE;
 
 void merge(TYPE *arr, int start, int mid, int end)
 {

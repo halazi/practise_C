@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include "mergesort.h"
 
 #define MAX 100
 
@@ -8,6 +8,8 @@ typedef struct {
 	char row;
 	char col;
 }Lawn;
+
+int compare(const void *pa, const void *pb);
 
 int compare(const void *pa, const void *pb)
 {
@@ -41,7 +43,8 @@ int main(int argc, char *argv[])
 				lawn[t].col = k;
 			}
 		}
-		qsort(lawn, n*m, sizeof(Lawn), compare);
+/*		qsort(lawn, n*m, sizeof(Lawn), compare);*/
+		mergesort(lawn, n*m, sizeof(Lawn), compare);
 		for (j=0; j<n*m; j++) {
 			row[j] = 0;
 			col[j] = 0;
