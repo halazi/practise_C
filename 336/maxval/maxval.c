@@ -11,8 +11,9 @@ int main()
 	int l[N], r[N];
 	int i;
 	srand(time(NULL));
+START:
 	for (i=0; i<N; i++) {
-		s[i] = rand() % 200 - 100;
+		s[i] = rand() % 20000 - 10000;
 	}
 	l[0] = s[0];
 	int lmax[N] = {0};
@@ -76,17 +77,23 @@ int main()
 		}
 	}
 	//printf("verified_val = %d, left = %d, right =  %d\n", vmax, vmaxl, vmaxr);
-	for (i=0; i<N; i++) {
-		printf("%d ", s[i]);
-	}
-	printf("\n");
+//	for (i=0; i<N; i++) {
+//		printf("%d ", s[i]);
+//	}
+//	printf("\n");
 	if (max == vmax && maxl == vmaxl && maxr == vmaxr) {
-		printf("Verify OK!\n");
+		//printf("Verify OK!\n");
+		goto START;
 	} else {
+		for (i=0; i<N; i++) {
+			printf("%d ", s[i]);
+		}
+		printf("\n");
 		if (max == vmax) {
 			printf("Max Value = %d\n", max);
 			printf("maxl = %d, maxr = %d\n", maxl, maxr);
 			printf("vmaxl = %d, vmaxr = %d\n", vmaxl, vmaxr);
+			goto START;
 		} else {
 			printf("Verify Failed!!!");
 			printf("max = %d, maxl = %d, maxr = %d\n", max, maxl, maxr);
